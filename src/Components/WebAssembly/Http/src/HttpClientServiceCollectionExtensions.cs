@@ -4,6 +4,7 @@
 using System;
 using System.Net.Http;
 using Microsoft.AspNetCore.Components;
+using WebAssembly.Net.Http.HttpClient;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -15,13 +16,21 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="serviceCollection">The <see cref="IServiceCollection" />.</param>
         /// <returns>The configured <see cref="IServiceCollection" />.</returns>
-        public static IServiceCollection AddBaseAddressHttpClient(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddWebAssemblyHttpClient(
+            this IServiceCollection serviceCollection,
+            Action<FetchRequestOptions> configureRequestOptions = null)
         {
-             return serviceCollection.AddSingleton(s =>
+            return serviceCollection.AddSingleton(s =>
             {
+                var handler = new WasmHttpMessageHandler();
+                if (configureRequestOptions != null)
+                {
+                    configureRequestOptions(handler.FetchRequestOptions);
+                }
+
                 // Creating the URI helper needs to wait until the JS Runtime is initialized, so defer it.
                 var navigationManager = s.GetRequiredService<NavigationManager>();
-                return new HttpClient
+                return new HttpClient(handler)
                 {
                     BaseAddress = new Uri(navigationManager.BaseUri)
                 };

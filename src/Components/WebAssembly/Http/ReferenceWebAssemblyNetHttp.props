@@ -1,0 +1,8 @@
+<Project>
+
+  <ItemGroup Condition="'$(ComponentsWebAssemblyFrameworkPath)' != ''">
+    <Reference Include="$(ComponentsWebAssemblyFrameworkPath)WebAssembly.Net.Http.dll" />
+
+  </ItemGroup>
+
+</Project>

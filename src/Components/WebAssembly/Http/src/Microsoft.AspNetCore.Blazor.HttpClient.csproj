@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\ReferenceWebAssemblyNetHttp.props" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Description>Provides experimental support for using System.Text.Json with HttpClient. Intended for use with Blazor running under WebAssembly.</Description>
     <IsShippingPackage>true</IsShippingPackage>
     <HasReferenceAssembly>false</HasReferenceAssembly>
@@ -12,7 +13,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Components.WebAssembly" />
+    <Reference Include="Microsoft.AspNetCore.Components.WebAssembly.Runtime" PrivateAssets="All" />
     <Reference Include="System.Text.Json" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(ComponentsWebAssemblyFrameworkPath)' != ''">
+    <None Include="$(ComponentsWebAssemblyFrameworkPath)WebAssembly.Net.Http.dll" Pack="true" PackagePath="lib\netstandard2.1" />
   </ItemGroup>
 
 </Project>

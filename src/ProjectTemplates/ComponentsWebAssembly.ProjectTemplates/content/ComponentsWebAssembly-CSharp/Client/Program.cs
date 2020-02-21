@@ -18,7 +18,7 @@ namespace ComponentsWebAssembly_CSharp
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddBaseAddressHttpClient();
+            builder.Services.AddWebAssemblyHttpClient();
 #if (IndividualLocalAuth)
     #if (Hosted)
             builder.Services.AddApiAuthorization();
